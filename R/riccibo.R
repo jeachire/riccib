@@ -1,0 +1,203 @@
+#' Parameter estimation of the Ricci distribution using Jeffrey's prior.
+#'
+#' This function estimates the parameters of the Ricci distribution from
+#' a sample and using Jeffrey's prior.
+#'
+#' @param x A vector of values to which you want to fit the Ricci model.
+#' @param R Number of samples in the chain (including burned samples).
+#' @param burn A positive integer specifying number of warmup
+#' samples. This also specifies the number of samples used
+#' for stepsize adaptation, so warmup draws should not be used
+#' for inference. The number of warmup should not be larger than
+#' R.
+#' @param jump Thinning rate. Must be a positive integer.
+#'
+#'
+#'
+#' @return
+#'
+#' A list containing the following estimates:
+#'
+#' \item{acep}{Acceptance rate in the metropolis hastings
+#' algorithm.}
+#' \item{eta}{Point estimate for the eta parameter.}
+#' \item{alpha}{Point estimate for parameter alpha.}
+#' \item{CIL_eta}{Lower limit of the credibility
+#' interval (95\%) for the eta parameter.}
+#'
+#' @details
+#'In this section, we outline the Monte Carlo Markov chain algorithm
+#'for sampling from the joint posterior distribution.  To generate
+#'samples of \eqn{\eta} and \eqn{\alpha} from the marginal posterior distribution,
+#' the Metropolis-Hastings (MH) algorithm is required since the marginal
+#' distributions do not have closed-form expressions. Therefore, in order
+#' to obtain samples from the marginal distributions, we can use the
+#' conditional distribution given by
+#'
+#'\eqn{
+#' p_1(\eta|\alpha,\boldsymbol{x})\propto \sqrt{(\rho+1)\Psi(\rho)-
+#'    \rho}\prod_{i=1}^{n}I_0\left( \frac{\eta x_i}{\alpha^2}
+#'      \right) \exp\left( -\sum_{i=1}^{n}\frac{x_i^2 + \eta^2}
+#'        {2\alpha^2} \right)}
+#'
+#'\eqn{
+#' p_2(\alpha|\eta,\boldsymbol{x})\propto\frac{\sqrt{(\rho+1)
+#' \Psi(\rho)-\rho}}{\alpha^{2n+2}}\prod_{i=1}^{n}I_0\left( \frac
+#' {\eta x_i}{\alpha^2} \right) \exp\left( -\sum_{i=1}^{n}\frac
+#' {x_i^2 + \eta^2}{2\alpha^2} \right)}
+#'
+#'In this study, we adopt the Gamma distribution
+#' \eqn{q(\alpha^{(*)}|\alpha^{(j)},k)} y \eqn{q(\eta^{(*)}|\eta^{(j)},d)}
+#'  as a proposal distribution to sample values of the parameters
+#'  \eqn{\alpha} and \eqn{\eta}, respectively, where \eqn{d} and \eqn{k}
+#'  are hyperparameters that influence the convergence rate of the
+#'  algorithm. It is important to note that alternative proposal
+#'  distributions can be utilized in place of the Gamma model,
+#'  such as any model that generates values in the positive real
+#'  line. The subsequent steps detail the execution of the MH
+#'  algorithm:
+#'
+#'  \enumerate{
+#' \item Compute the initial values of \eqn{\eta^{(1)}}
+#' and \eqn{\alpha^{(1)}} from moment estimators and initialize
+#' a counter \eqn{j=1};
+#' \item Generate a random number \eqn{\eta^{(*)}} from the
+#' \eqn{Gamma(\eta^{(j)}, d)} distribution;
+#' \item Calculate the acceptance probability, defined as:
+#'
+#' \eqn{
+#' \Delta\left(\eta^{(j)},\eta^{(*)}\right)=\min\left(1, \frac
+#' {p_1\left(\eta^{(*)}|\alpha^{(j)},\boldsymbol{x}\right)}
+#' {p_1\left(\eta^{(j)}|\alpha^{(j)},\boldsymbol{x}\right)}
+#' \frac{q\left(\eta^{(j)}|\eta^{(*)},d\right)}{q
+#' \left(\eta^{(*)}|\eta^{(j)},d\right)}\right)}
+#'
+#' Draw a random sample from an independent uniform distribution
+#' \eqn{u} in the interval (0,1);
+#' \item If \eqn{\Delta\left(\eta^{(j)},\eta^{(*)}\right)\geq u(0,1)},
+#' accept the value \eqn{\eta^{(*)}} and set
+#' \eqn{\eta^{(j+1)}=\eta^{(*)}}.
+#' If \eqn{\Delta\left(\eta^{(j)},\eta^{(*)}\right)< u(0,1)},
+#' reject the value and set \eqn{\eta^{(j+1)}=\eta^{(j)}};
+#'
+#' \item Generate a random number \eqn{\alpha^{(*)}} from
+#' the \eqn{Gamma(\alpha^{(j)}, k)} distribution;
+#' \item Calculate the acceptance probability, defined as:
+#' \eqn{
+#' \Delta\left(\alpha^{(j)},\alpha^{(*)}\right)=\min
+#' \left(1, \frac{p_2\left(\alpha^{(*)}|\eta^{(j+1)},
+#' \boldsymbol{x}\right)}{p_2\left(\alpha^{(j)}|\eta^{(j+1)},
+#' \boldsymbol{x}\right)} \frac{q\left(\alpha^{(j)}|
+#' \alpha^{(*)},k\right)}{q\left(\alpha^{(*)}|\alpha^{(j)},k
+#' \right)}\right)}
+#'
+#' Draw a random sample from an independent uniform distribution
+#' \eqn{u} in the interval (0,1);
+#' \item If \eqn{\Delta\left(\alpha^{(j)},\alpha^{(*)}\right)\geq u(0,1)},
+#' accept the value \eqn{\alpha^{(*)}} and set
+#' \eqn{\alpha^{(j+1)}=\alpha^{(*)}}.
+#' If \eqn{\Delta\left(\alpha^{(j)},\alpha^{(*)}\right)< u(0,1)},
+#' reject the value and set \eqn{\alpha^{(j+1)}=\alpha^{(j)}};
+#'
+#' \item Increment the counter (j) to (j+1) and repeat steps 2-7
+#' until the chains converge.
+#' }
+#'
+#' The implementation of the MCMC methodology detailed previously
+#' facilitated the generation of 5,500 samples from the posterior
+#' distributions. We excluded the initial 500 samples, considering
+#' them as the burn-in phase, and applied a thinning process with
+#' an interval of every 5 samples. This procedure resulted in two
+#' separate chains, each containing \eqn{1000} samples, which were
+#' utilized to derive the posterior statistical summaries. Initial
+#' values for the simulation were determined using moment
+#' estimators, which are known for their analytical solutions.
+#'
+#' To assess the convergence of the Markov chains we produced,
+#' a Geweke diagnostic was employed.
+#' This diagnostic employs a method that compares the mean values
+#' of the first \eqn{10\%} and the last \eqn{50\%} of a chain,
+#' positing that the equality of these means indicates sampling
+#' from a stationary (posterior) distribution. Consequently, the
+#' Geweke statistic, under this hypothesis, is expected to conform
+#' to a standard normal distribution as it approaches infinity.
+#' The computation of the Z-score assumes the independence of the
+#' two segments of the chain over the long term. Convergence of the
+#' chains was inferred when their respective Geweke statistics fell
+#' within the critical range of -1.96 to 1.96.
+#'
+#'
+#'
+#' @seealso
+#'
+#' @references Rice, S. O. (1944). Mathematical analysis of random
+#' noise. The Bell System Technical Journal, 23(3), 282-332.
+#' @references Jeffreys, H. (1946). An invariant form for the prior
+#' probability in estimation problems. Proceedings of the Royal
+#' Society of London. Series A. Mathematical and Physical Sciences,
+#' 186(1007), 453-461.
+#'
+#' @examples
+#' set.seed(0) # setting a seed for reproducibility
+#'
+#' peta <- 6       # eta parameter
+#' palpha <- 2       # alpha parameter
+#' n <-30      # sample size
+#' x<-rrice(n, palpha,peta)  # Generates a sample of the Ricci distribution
+#' riccibo(x,R=5500,burn=500,jump=5)
+#'
+#'
+#' @import coda
+#' @import MCMCpack
+#' @import VGAM
+#' @export
+
+riccibo<-function(x,R,burn,jump,b=1) {
+  integrand <- function(x,rho) {(x^3/rho^2)*exp(-(x^2/(2*rho))-rho/2)*(besselI(x,nu = 1)^2/besselI(x,nu = 0))}
+  psiint<-function(rho){
+  resul<-integrate(integrand, lower = 0, upper = 300, rho=rho)$value -rho
+  return(resul)  }
+  posterior <- function (eta,alfa) {
+  rho<-(eta^2)/(alfa^2)
+  p<-0.5*log((rho+1)*psiint(rho)-rho)-(2*n+2)*log(alfa)+sum(log(besselI((x*eta/(alfa^2)),nu = 0)))-sum((x^2+eta^2)/(2*alfa^2))
+  return(p) }
+  alfa<-length(R+1); eta<-length(R+1); n<-length(x)
+  eta[1]<-(2*(mean(x^2)^2)-mean(x^4))^(1/4)
+  alfa[1]<-sqrt((1/2)*(mean(x^2)-eta[1]^2))
+  c1<-rep(0,times=R)
+  c2<-rep(0,times=R)
+  ## Realizando o M-H hibrido
+  a1<-0; a2<-0; i<-1; c10<-0
+  try(
+    while (i<=R) {
+      if(i<1) i<-2
+      prop1<-rgamma(1,shape=b*eta[i],rate=b)
+      ratio1<-posterior(prop1,alfa[i])-posterior(eta[i],alfa[i])+dgamma(eta[i],shape=b*prop1,rate=b,log=TRUE)-dgamma(prop1,shape=b*eta[i],rate=b,log=TRUE)
+      alpha1<-min(1,exp(ratio1)); u1<-runif(1)
+      if (u1<alpha1 & alpha1!="NaN" & alpha1!="Inf" & alpha1!="-Inf") {eta[i+1]<-prop1 ; c1[i]<-0 ; a1<-0} else {eta[i+1]<-eta[i] ; a1<-a1+1; c1[i]<-1}
+
+      prop2<-rgamma(1,shape=b*alfa[i],rate=b)
+      ratio2<-posterior(eta[i+1],prop2)-posterior(eta[i+1],alfa[i])+dgamma(alfa[i],shape=b*prop2,rate=b,log=TRUE)-dgamma(prop2,shape=b*alfa[i],rate=b,log=TRUE)
+      alpha2<-min(1,exp(ratio2)); u2<-runif(1)
+      if (u2<alpha2 & alpha2!="NaN" & alpha2!="Inf" & alpha2!="-Inf") {alfa[i+1]<-prop2 ; c2[i]<-0 ; a2<-0} else {alfa[i+1]<-alfa[i] ; a2<-a2+1; c2[i]<-1}
+
+      if(a1==40) {i<-i-50; a1=0}
+      i<-i+1 ; c10<-c10+1
+      if(c10==500000) {i=R+1; alfa<-rep(0,times=R); eta<-rep(0,times=R)}
+    })
+      try(veta<-eta[seq(burn,R,jump)])
+      try(valfa<- alfa[seq(burn,R,jump)])
+      ace1<- (1-sum(c1)/length(c1))
+      atc1<- mean(acf(veta,plot=F)$acf)
+      atc2<- mean(acf(valfa,plot=F)$acf)
+      ge1<-abs(geweke.diag(veta)$z[1])
+      ge2<-abs(geweke.diag(valfa)$z[1])
+      prai<-quantile(veta, probs = 0.025, na.rm = FALSE,names = FALSE,type = 7)
+      pras<-quantile(veta, probs = 0.975, na.rm = FALSE,names = FALSE,type = 7)
+      prli<-quantile(valfa, probs = 0.025, na.rm = FALSE,names = FALSE,type = 7)
+      prls<-quantile(valfa, probs = 0.975, na.rm = FALSE,names = FALSE,type = 7)
+      auxeta<-mean(veta); auxalfa<-mean(valfa);
+  return(list(acep=(1-sum(c1)/length(c1)),eta=auxeta,alpha=auxalfa, CIL_eta=prai,CIS_eta=pras, CIL_alpha=prli,CIS_alpha=prls, Geweke.statistics=ge1))
+}
+
+

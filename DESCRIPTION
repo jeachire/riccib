@@ -1,0 +1,12 @@
+Package: riccib
+Type: Package
+Title: Objective Bayesian analysis for the Ricci distribution
+Version: 0.1.0
+Author: Jesus y Pedro
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: This function estimates the parameters of the Ricci distribution from
+ a sample and using Jeffrey's prior.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
