@@ -1,0 +1,7 @@
+navbar:
+  structure:
+    right: [search, github, source]
+  components:
+    source:
+      text: "Source"
+      href: "https://github.com/jeachire/riccib"
