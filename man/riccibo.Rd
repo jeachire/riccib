@@ -135,14 +135,39 @@ chains was inferred when their respective Geweke statistics fell
 within the critical range of -1.96 to 1.96.
 }
 \examples{
-set.seed(0) # setting a seed for reproducibility
+\dontrun{
+# Do not run this R code without first installing and loading the `riccib`
+# package from the repository https://github.com/jeachire/riccib, as well
+# as the `coda`, `MCMCpack`, and `VGAM` packages from CRAN.
+
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+remotes::install_github("jeachire/riccib")
+
+if (!requireNamespace("coda", quietly = TRUE)) {
+  install.packages("coda")
+}
+library(coda)
+
+if (!requireNamespace("MCMCpack", quietly = TRUE)) {
+  install.packages("MCMCpack")
+}
+library(MCMCpack)
+
+if (!requireNamespace("VGAM", quietly = TRUE)) {
+  install.packages("VGAM")
+}
+library(VGAM)
+
+# Use the riccibo function from the riccib package
 
 peta <- 6       # eta parameter
 palpha <- 2       # alpha parameter
 n <-30      # sample size
 x<-rrice(n, palpha,peta)  # Generates a sample of the Ricci distribution
 riccibo(x,R=5500,burn=500,jump=5)
-
+}
 
 }
 \references{

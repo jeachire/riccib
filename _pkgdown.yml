@@ -1,7 +1,41 @@
+pkgdown:
+  title: "riccib"
+  subtitle: "Un paquete R para [tu descripción aquí]"
+  url: https://jeachire.github.io/riccib
+  description: "Descripción corta de tu paquete."
+
+authors:
+  - name: "Tu Nombre"
+    href: https://github.com/jeachire
+    role: ["aut", "cre"]
+
 navbar:
   structure:
+    left: [reference, articles, news]
     right: [search, github, source]
   components:
     source:
       text: "Source"
       href: "https://github.com/jeachire/riccib"
+    github:
+      text: "GitHub"
+      href: "https://github.com/jeachire/riccib"
+
+
+reference:
+  - title: "Funciones principales"
+    contents:
+      - riccibo
+
+articles:
+  - title: "Vignettes"
+    contents:
+    - Introduction
+
+news:
+  - title: "Noticias"
+    contents: news
+
+template:
+  bootstrap: 5
+
