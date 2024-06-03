@@ -144,6 +144,7 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
 remotes::install_github("jeachire/riccib")
+library(riccib)
 
 if (!requireNamespace("coda", quietly = TRUE)) {
   install.packages("coda")
