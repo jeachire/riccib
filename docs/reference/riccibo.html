@@ -216,48 +216,36 @@ Society of London. Series A. Mathematical and Physical Sciences,
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code>mcmc</code>: Function for performing MCMC
-sampling in the <span class="pkg">MCMCpack</span> package.
-<code>Geweke.diag</code>: Function for Geweke's
-convergence diagnostic in the <span class="pkg">coda</span> package.
-<code>rice</code>: Function for the Rice distribution
+sampling in the <span class="pkg">MCMCpack</span> package.</p>
+<p><code>Geweke.diag</code>: Function for Geweke's
+convergence diagnostic in the <span class="pkg">coda</span> package.</p>
+<p><code>rice</code>: Function for the Rice distribution
 in the <span class="pkg">VGAM</span> package.</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># Do not run this R code without first installing and loading the `riccib`</span></span></span>
-<span class="r-in"><span><span class="co"># package from the repository https://github.com/jeachire/riccib, as well</span></span></span>
-<span class="r-in"><span><span class="co"># as the `coda`, `MCMCpack`, and `VGAM` packages from CRAN.</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Install the `riccib` package from the GitHub repository.</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"jeachire/riccib"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Load `riccib` package and its dependencies.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">riccib</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"coda"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"coda"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coda</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"MCMCpack"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"MCMCpack"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=MCMCpack" class="external-link">MCMCpack</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"VGAM"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"VGAM"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.auckland.ac.nz/~yee/VGAM/" class="external-link">VGAM</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Use the riccibo function from the riccib package</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate a sample of the Ricci distribution.</span></span></span>
 <span class="r-in"><span><span class="va">peta</span> <span class="op">&lt;-</span> <span class="fl">6</span>       <span class="co"># eta parameter</span></span></span>
-<span class="r-in"><span><span class="va">palpha</span> <span class="op">&lt;-</span> <span class="fl">2</span>       <span class="co"># alpha parameter</span></span></span>
-<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span><span class="fl">30</span>      <span class="co"># sample size</span></span></span>
-<span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/VGAM/man/riceUC.html" class="external-link">rrice</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">palpha</span>,<span class="va">peta</span><span class="op">)</span>  <span class="co"># Generates a sample of the Ricci distribution</span></span></span>
-<span class="r-in"><span><span class="fu">riccibo</span><span class="op">(</span><span class="va">x</span>,R<span class="op">=</span><span class="fl">5500</span>,burn<span class="op">=</span><span class="fl">500</span>,jump<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">palpha</span> <span class="op">&lt;-</span> <span class="fl">2</span>     <span class="co"># alpha parameter</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">30</span>         <span class="co"># sample size</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/VGAM/man/riceUC.html" class="external-link">rrice</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">palpha</span>, <span class="va">peta</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use the riccibo function from the `riccib` package.</span></span></span>
+<span class="r-in"><span><span class="fu">riccibo</span><span class="op">(</span><span class="va">x</span>, R <span class="op">=</span> <span class="fl">5500</span>, burn <span class="op">=</span> <span class="fl">500</span>, jump <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

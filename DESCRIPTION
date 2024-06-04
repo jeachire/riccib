@@ -8,8 +8,8 @@ Description: This package contains a function called `riccibo`, which allows the
     estimation of the parameters of a Ricci model using a Bayesian approach with
     Jeffreys' non-informative prior. To start using the `riccib` package and the
     `riccibo` function, you need to install it from the GitHub repository
-    <https://github.com/jeachire/riccib>. Additionally, you need to install the
-    following dependencies from CRAN: `MCMCpack`, `coda`, and `VGAM`. For more
+    <https://github.com/jeachire/riccib>, the following dependencies will be 
+    automatically installed: `MCMCpack`, `coda`, and `VGAM`. For more
     details about the `riccibo` function and how to use it, please refer to the
     documentation at <https://jeachire.github.io/riccib/reference/riccibo.html>.
 License: GPL-3

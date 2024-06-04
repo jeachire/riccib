@@ -144,38 +144,26 @@ within the critical range of -1.96 to 1.96.
 }
 \examples{
 \dontrun{
-# Do not run this R code without first installing and loading the `riccib`
-# package from the repository https://github.com/jeachire/riccib, as well
-# as the `coda`, `MCMCpack`, and `VGAM` packages from CRAN.
-
+# Install the `riccib` package from the GitHub repository.
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
 remotes::install_github("jeachire/riccib")
+
+# Load `riccib` package and its dependencies.
 library(riccib)
-
-if (!requireNamespace("coda", quietly = TRUE)) {
-  install.packages("coda")
-}
-library(coda)
-
-if (!requireNamespace("MCMCpack", quietly = TRUE)) {
-  install.packages("MCMCpack")
-}
 library(MCMCpack)
-
-if (!requireNamespace("VGAM", quietly = TRUE)) {
-  install.packages("VGAM")
-}
+library(coda)
 library(VGAM)
 
-# Use the riccibo function from the riccib package
-
+# Generate a sample of the Ricci distribution.
 peta <- 6       # eta parameter
-palpha <- 2       # alpha parameter
-n <-30      # sample size
-x<-rrice(n, palpha,peta)  # Generates a sample of the Ricci distribution
-riccibo(x,R=5500,burn=500,jump=5)
+palpha <- 2     # alpha parameter
+n <- 30         # sample size
+x <- rrice(n, palpha, peta)
+
+# Use the riccibo function from the `riccib` package.
+riccibo(x, R = 5500, burn = 500, jump = 5)
 }
 
 }
@@ -191,8 +179,10 @@ Society of London. Series A. Mathematical and Physical Sciences,
 \seealso{
 \code{\link[MCMCpack]{mcmc}}: Function for performing MCMC
 sampling in the \pkg{MCMCpack} package.
+
 \code{\link[coda]{Geweke.diag}}: Function for Geweke's
 convergence diagnostic in the \pkg{coda} package.
+
 \code{\link[VGAM]{rice}}: Function for the Rice distribution
 in the \pkg{VGAM} package.
 }
