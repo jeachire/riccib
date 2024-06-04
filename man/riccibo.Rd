@@ -28,6 +28,14 @@ algorithm.}
 \item{alpha}{Point estimate for parameter alpha.}
 \item{CIL_eta}{Lower limit of the credibility
 interval (95\%) for the eta parameter.}
+\item{CIS_eta}{Upper limit of the credibility
+interval (95\%) for the eta parameter.}
+\item{CIL_alpha}{Lower limit of the credibility
+interval (95\%) for the alpha parameter.}
+\item{CIS_alpha}{Upper limit of the credibility
+interval (95\%) for the alpha parameter.}
+\item{Geweke.statistics}{Z-Statistic of Geweke's
+convergence diagnostic.}
 }
 \description{
 This function estimates the parameters of the Ricci distribution from
@@ -179,4 +187,12 @@ Jeffreys, H. (1946). An invariant form for the prior
 probability in estimation problems. Proceedings of the Royal
 Society of London. Series A. Mathematical and Physical Sciences,
 186(1007), 453-461.
+}
+\seealso{
+\code{\link[MCMCpack]{mcmc}}: Function for performing MCMC
+sampling in the \pkg{MCMCpack} package.
+\code{\link[coda]{Geweke.diag}}: Function for Geweke's
+convergence diagnostic in the \pkg{coda} package.
+\code{\link[VGAM]{rice}}: Function for the Rice distribution
+in the \pkg{VGAM} package.
 }

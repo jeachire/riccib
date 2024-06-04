@@ -24,6 +24,14 @@
 #' \item{alpha}{Point estimate for parameter alpha.}
 #' \item{CIL_eta}{Lower limit of the credibility
 #' interval (95\%) for the eta parameter.}
+#' \item{CIS_eta}{Upper limit of the credibility
+#' interval (95\%) for the eta parameter.}
+#' \item{CIL_alpha}{Lower limit of the credibility
+#' interval (95\%) for the alpha parameter.}
+#' \item{CIS_alpha}{Upper limit of the credibility
+#' interval (95\%) for the alpha parameter.}
+#' \item{Geweke.statistics}{Z-Statistic of Geweke's
+#' convergence diagnostic.}
 #'
 #' @details
 #'In this section, we outline the Monte Carlo Markov chain algorithm
@@ -129,6 +137,12 @@
 #'
 #'
 #' @seealso
+#'\code{\link[MCMCpack]{mcmc}}: Function for performing MCMC
+#'sampling in the \pkg{MCMCpack} package.
+#' \code{\link[coda]{Geweke.diag}}: Function for Geweke's
+#' convergence diagnostic in the \pkg{coda} package.
+#' \code{\link[VGAM]{rice}}: Function for the Rice distribution
+#' in the \pkg{VGAM} package.
 #'
 #' @references Rice, S. O. (1944). Mathematical analysis of random
 #' noise. The Bell System Technical Journal, 23(3), 282-332.
